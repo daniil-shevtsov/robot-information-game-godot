@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://bqq57qthffnss"]
+[gd_scene load_steps=4 format=3 uid="uid://bqq57qthffnss"]
 
-[ext_resource type="Texture2D" uid="uid://ckpnu6snau62b" path="res://Assets/Texture/player.png" id="1_k3kdk"]
+[ext_resource type="Script" path="res://Scripts/Player.cs" id="1_m6lx3"]
+[ext_resource type="Texture2D" uid="uid://pvdf06puwgf2" path="res://Assets/Texture/TempPlayerSprite.png" id="1_tom8p"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pk3m5"]
+height = 3.00343
 
 [node name="Node3D" type="Node3D"]
 
@@ -10,11 +14,18 @@
 size = Vector3(4.39797, 1, 4.70452)
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.79487, 0.606779, 0, -0.606779, 0.79487, 0, 1.9095, 3.41331)
+transform = Transform3D(1, 0, 0, 0, 0.79487, 0.606779, 0, -0.606779, 0.79487, 0, 4.49482, 3.41331)
 
 [node name="Player" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.26978, 0)
+script = ExtResource("1_m6lx3")
 
 [node name="PlayerSprite" type="Sprite3D" parent="Player"]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
-texture = ExtResource("1_k3kdk")
+texture = ExtResource("1_tom8p")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="Player"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player/CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.196176, 0)
+shape = SubResource("CapsuleShape3D_pk3m5")
