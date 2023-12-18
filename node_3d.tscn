@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://bqq57qthffnss"]
+[gd_scene load_steps=2 format=3 uid="uid://bqq57qthffnss"]
+
+[ext_resource type="Texture2D" uid="uid://ckpnu6snau62b" path="res://Assets/Texture/player.png" id="1_k3kdk"]
 
 [node name="Node3D" type="Node3D"]
 
@@ -9,3 +11,10 @@ size = Vector3(4.39797, 1, 4.70452)
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.79487, 0.606779, 0, -0.606779, 0.79487, 0, 1.9095, 3.41331)
+
+[node name="Player" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="PlayerSprite" type="Sprite3D" parent="Player"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+texture = ExtResource("1_k3kdk")
