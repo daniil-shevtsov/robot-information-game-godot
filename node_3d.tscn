@@ -19,9 +19,6 @@ size = Vector3(5, 1, 5)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
 shape = SubResource("BoxShape3D_co3db")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.79487, 0.606779, 0, -0.606779, 0.79487, 0, 4.49482, 3.41331)
-
 [node name="Player" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.79162, 0)
 script = ExtResource("1_m6lx3")
@@ -33,3 +30,6 @@ shape = SubResource("CapsuleShape3D_pk3m5")
 [node name="PlayerSprite" type="Sprite3D" parent="Player"]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
 texture = ExtResource("1_tom8p")
+
+[node name="Camera3D" type="Camera3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 0.79487, 0.606779, 0, -0.606779, 0.79487, 0, 1.7032, 3.41331)
