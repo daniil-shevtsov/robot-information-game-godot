@@ -11,7 +11,16 @@ height = 3.00343
 
 [node name="Node3D" type="Node3D"]
 
-[node name="Ground" type="Area3D" parent="."]
+[node name="Ground2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.77277, -4.54123)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Ground2"]
+size = Vector3(5, 1, 5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground2"]
+shape = SubResource("BoxShape3D_co3db")
+
+[node name="Ground" type="StaticBody3D" parent="."]
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Ground"]
 size = Vector3(5, 1, 5)

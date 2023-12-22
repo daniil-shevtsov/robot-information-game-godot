@@ -30,7 +30,6 @@ public partial class Player : CharacterBody3D
         // We check for each move input and update the direction accordingly.
         if (Input.IsActionPressed("move_right"))
         {
-            GD.Print("Move Right");
             direction.X += 1.0f;
         }
         if (Input.IsActionPressed("move_left"))
@@ -57,12 +56,14 @@ public partial class Player : CharacterBody3D
         _targetVelocity.Z = direction.Z * Speed;
 
         // // Vertical velocity
-        // if (!IsOnFloor()) // If in the air, fall towards the floor. Literally gravity
-        // {
-        //     _targetVelocity.Y -= FallAcceleration * (float)delta;
-        // }
+        bool onFloor = IsOnFloor();
+        GD.Print($"onFloor={onFloor}");
+        if (!onFloor) // If in the air, fall towards the floor. Literally gravity
+        {
+            _targetVelocity.Y -= FallAcceleration * (float)delta;
+        }
 
-        // Moving the character
+        // // Moving the character
         Velocity = _targetVelocity;
         MoveAndSlide();
     }
