@@ -90,8 +90,15 @@ public partial class Player : CharacterBody3D
             query.Exclude = new Godot.Collections.Array<Rid> { GetRid() };
             var result = spaceState.IntersectRay(query);
 
-            var intersectedObject = (FocusableSphere)result["collider"];
-            GD.Print($"from={from} to={to} intersects={intersectedObject.lol}");
+            var focusable = (FocusableSphere)result["collider"];
+            GD.Print($"from={from} to={to} intersects={focusable.lol}");
+            // var currentMaterial = new SpatialMaterial();
+            // currentMaterial.AlbedoColor = Color.FromHtml("#FF0000");
+            StandardMaterial3D material = new StandardMaterial3D(); // Create a new StandardMaterial3D
+            material.AlbedoColor = Color.FromHtml("#FF0000"); // Set the albedo color
+
+            // Assign the material to the CsgSphere3D
+            focusable.sphere.MaterialOverride = material;
         }
     }
 }
