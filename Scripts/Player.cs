@@ -38,8 +38,6 @@ public partial class Player : CharacterBody3D
         }
         if (Input.IsActionPressed("move_back"))
         {
-            // Notice how we are working with the vector's X and Z axes.
-            // In 3D, the XZ plane is the ground plane.
             direction.Z += 1.0f;
         }
         if (Input.IsActionPressed("move_forward"))
@@ -49,21 +47,16 @@ public partial class Player : CharacterBody3D
         if (direction != Vector3.Zero)
         {
             direction = direction.Normalized();
-            //GetNode<Node3D>("Pivot").LookAt(Position + direction, Vector3.Up);
         }
-        // Ground velocity
         _targetVelocity.X = direction.X * Speed;
         _targetVelocity.Z = direction.Z * Speed;
 
-        // // Vertical velocity
         bool onFloor = IsOnFloor();
-        GD.Print($"onFloor={onFloor}");
-        if (!onFloor) // If in the air, fall towards the floor. Literally gravity
+        if (!onFloor)
         {
             _targetVelocity.Y -= FallAcceleration * (float)delta;
         }
 
-        // // Moving the character
         Velocity = _targetVelocity;
         MoveAndSlide();
     }
