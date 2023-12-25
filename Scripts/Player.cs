@@ -12,6 +12,8 @@ public partial class Player : CharacterBody3D
     public int FallAcceleration { get; set; } = 75;
 
     private Vector3 _targetVelocity = Vector3.Zero;
+    private const float RayLength = 1000.0f;
+    private Vector3 mousePosition = Vector3.Zero;
 
     private Camera3D camera = null;
 
@@ -59,5 +61,26 @@ public partial class Player : CharacterBody3D
 
         Velocity = _targetVelocity;
         MoveAndSlide();
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        if (
+            @event is InputEventMouseButton eventMouseButton
+            && eventMouseButton.Pressed
+            && eventMouseButton.ButtonIndex == MouseButton.Left
+        )
+        {
+            var camera3D = GetNode<Camera3D>("CameraPivot/Camera3D");
+            var from = camera3D.ProjectRayOrigin(eventMouseButton.Position);
+            var to = from + camera3D.ProjectRayNormal(eventMouseButton.Position) * RayLength;
+
+            var spaceState = GetWorld3D().DirectSpaceState;
+            var query = PhysicsRayQueryParameters3D.Create(from, to);
+            query.Exclude = new Godot.Collections.Array<Rid> { GetRid() };
+            var result = spaceState.IntersectRay(query);
+
+            GD.Print($"from={from} to={to} intersects={result.Count}");
+        }
     }
 }
