@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Player : CharacterBody3D
 {
@@ -17,10 +18,20 @@ public partial class Player : CharacterBody3D
 
     private Camera3D camera = null;
 
+    private List<FocusableSphere> focusables = new List<FocusableSphere>();
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         camera = GetNode<Camera3D>("Camera3D");
+        focusables = new List<FocusableSphere>();
+        //TODO: Create focusables with code
+        focusables.Add(GetNode<FocusableSphere>("../FocusableSphere"));
+        focusables.Add(GetNode<FocusableSphere>("../FocusableSphere2"));
+        focusables.Add(GetNode<FocusableSphere>("../FocusableSphere3"));
+        GD.Print(focusables[0].lol);
+        GD.Print(focusables[1].lol);
+        GD.Print(focusables[2].lol);
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

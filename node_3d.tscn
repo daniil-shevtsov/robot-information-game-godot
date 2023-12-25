@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dn1k0mjbyfoo6" path="res://Prefabs/ground.tscn" id="1_0rkc2"]
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_m6lx3"]
 [ext_resource type="Texture2D" uid="uid://pvdf06puwgf2" path="res://Assets/Texture/TempPlayerSprite.png" id="1_tom8p"]
-[ext_resource type="PackedScene" uid="uid://dgv0ceu3gb0xm" path="res://focusable_sphere.tscn" id="4_n81ko"]
+[ext_resource type="PackedScene" uid="uid://dgv0ceu3gb0xm" path="res://Prefabs/focusable_sphere.tscn" id="4_n81ko"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_co3db"]
 size = Vector3(5, 1, 5)

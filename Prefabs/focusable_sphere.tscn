@@ -1,9 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://dgv0ceu3gb0xm"]
+[gd_scene load_steps=3 format=3 uid="uid://dgv0ceu3gb0xm"]
+
+[ext_resource type="Script" path="res://Scripts/FocusableSphere.cs" id="1_0xspa"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_0stiu"]
 
 [node name="FocusableSphere" type="StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.40396, 3.26484, -2.9432)
+script = ExtResource("1_0xspa")
 
 [node name="CSGSphere3D" type="CSGSphere3D" parent="."]
 
