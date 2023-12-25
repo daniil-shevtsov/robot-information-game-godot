@@ -16,22 +16,22 @@ public partial class Player : CharacterBody3D
     private const float RayLength = 1000.0f;
     private Vector3 mousePosition = Vector3.Zero;
 
-    private Camera3D camera = null;
+    private Camera3D camera3D = null;
 
     private List<FocusableSphere> focusables = new List<FocusableSphere>();
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        camera = GetNode<Camera3D>("Camera3D");
+        camera3D = GetNode<Camera3D>("CameraPivot/Camera3D");
         focusables = new List<FocusableSphere>();
         //TODO: Create focusables with code
         focusables.Add(GetNode<FocusableSphere>("../FocusableSphere"));
         focusables.Add(GetNode<FocusableSphere>("../FocusableSphere2"));
         focusables.Add(GetNode<FocusableSphere>("../FocusableSphere3"));
-        GD.Print(focusables[0].lol);
-        GD.Print(focusables[1].lol);
-        GD.Print(focusables[2].lol);
+        focusables[0].lol = "kek0";
+        focusables[1].lol = "kek1";
+        focusables[2].lol = "kek2";
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -82,7 +82,6 @@ public partial class Player : CharacterBody3D
             && eventMouseButton.ButtonIndex == MouseButton.Left
         )
         {
-            var camera3D = GetNode<Camera3D>("CameraPivot/Camera3D");
             var from = camera3D.ProjectRayOrigin(eventMouseButton.Position);
             var to = from + camera3D.ProjectRayNormal(eventMouseButton.Position) * RayLength;
 
@@ -91,7 +90,8 @@ public partial class Player : CharacterBody3D
             query.Exclude = new Godot.Collections.Array<Rid> { GetRid() };
             var result = spaceState.IntersectRay(query);
 
-            GD.Print($"from={from} to={to} intersects={result.Count}");
+            var intersectedObject = (FocusableSphere)result["collider"];
+            GD.Print($"from={from} to={to} intersects={intersectedObject.lol}");
         }
     }
 }
