@@ -28,9 +28,9 @@ public partial class Player : CharacterBody3D
         var scene = GetTree().CurrentScene;
         var codeFocusable = GD.Load<PackedScene>("res://Prefabs/focusable_sphere.tscn");
 
-        var radius = 6;
+        var radius = 6.0;
 
-        for (int i = 0; i < 10; ++i)
+        for (int i = 0; i <= 3; ++i)
         {
             var instanceFocusable = codeFocusable.Instantiate();
             var myFocusable = (FocusableSphere)instanceFocusable;
@@ -40,41 +40,47 @@ public partial class Player : CharacterBody3D
             var offsetX = radius;
             var offsetY = radius;
             var offsetZ = radius;
-            if (i % 2 == 0)
-            {
-                sign = -1;
-            }
+            var angle = 0.0;
+
             if (i == 0)
             {
+                angle = Math.PI * 2;
                 offsetX = 0;
                 offsetY = 3;
-                offsetZ = -radius;
+                offsetZ = radius * Math.Sin(angle);
             }
             else if (i == 1)
             {
+                angle = Math.PI * 0;
                 offsetX = radius;
                 offsetY = 3;
-                offsetZ = 0;
+                offsetZ = radius * Math.Sin(angle);
             }
             else if (i == 2)
             {
+                angle = Math.PI * 3 / 2;
                 offsetX = 0;
                 offsetY = 3;
-                offsetZ = radius;
+                offsetZ = radius * Math.Sin(angle);
             }
             else if (i == 3)
             {
+                angle = Math.PI * 1;
                 offsetX = -radius;
                 offsetY = 3;
-                offsetZ = 0;
+                offsetZ = radius * Math.Sin(angle);
             }
+            offsetX = radius * Math.Cos(angle);
+            offsetZ = radius * Math.Sin(angle);
 
             myFocusable.GlobalPosition = new Vector3(
-                GlobalPosition.X + offsetX,
-                GlobalPosition.Y + offsetY,
-                GlobalPosition.Z + offsetZ
+                GlobalPosition.X + (float)offsetX,
+                GlobalPosition.Y + (float)offsetY,
+                GlobalPosition.Z + (float)offsetZ
             );
             myFocusable.lol = $"focusable{i}";
+            GD.Print($"Offset ({offsetX},{offsetY},{offsetZ}))");
+            GD.Print($"{myFocusable.lol} = {myFocusable.GlobalPosition}");
         }
         clearColors();
     }
@@ -153,6 +159,7 @@ public partial class Player : CharacterBody3D
         var focusable = findIntersectedFocusable(eventMouseButton.Position);
         if (focusable != null)
         {
+            GD.Print($"{focusable.lol} clicked");
             setFocusableColor(focusable, Color.FromHtml("#FF0000"));
         }
         else
