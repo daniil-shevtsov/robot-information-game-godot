@@ -37,24 +37,10 @@ public partial class Player : CharacterBody3D
             scene.CallDeferred("add_child", instanceFocusable);
             focusables.Add(myFocusable);
 
+            var step = Math.PI / 2;
             var angle = 0.0;
+            angle = step * i;
 
-            if (i == 0)
-            {
-                angle = Math.PI / 2;
-            }
-            else if (i == 1)
-            {
-                angle = Math.PI * 0;
-            }
-            else if (i == 2)
-            {
-                angle = Math.PI * 3 / 2;
-            }
-            else if (i == 3)
-            {
-                angle = Math.PI * 1;
-            }
             var angleSin = Math.Sin(angle);
             var angleCos = Math.Cos(angle);
             var offsetX = radius * angleSin;
