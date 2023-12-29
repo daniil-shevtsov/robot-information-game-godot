@@ -30,33 +30,24 @@ public partial class Player : CharacterBody3D
 
         var radius = 6.0;
 
-        for (int i = 0; i < 8; ++i)
+        var focusableCount = 32;
+        for (int i = 0; i < focusableCount; ++i)
         {
             var instanceFocusable = codeFocusable.Instantiate();
             var myFocusable = (FocusableSphere)instanceFocusable;
             scene.CallDeferred("add_child", instanceFocusable);
             focusables.Add(myFocusable);
 
-            var step = Math.PI / 2;
-            var angle = 0.0;
-            angle = step * i / 2.0;
+            myFocusable.lol = $"focusable{i}";
 
-            var angleSin = Math.Sin(angle);
-            var angleCos = Math.Cos(angle);
-            var offsetX = radius * angleSin;
-            var offsetY = 3f;
-            var offsetZ = radius * -angleCos;
+            var step = 2 * Math.PI / focusableCount;
+            var angle = step * i;
 
             myFocusable.GlobalPosition = new Vector3(
-                (float)offsetX,
-                (float)offsetY,
-                (float)offsetZ
+                (float)(radius * Math.Sin(angle)),
+                3f,
+                (float)(radius * -Math.Cos(angle))
             );
-            myFocusable.lol = $"focusable{i}";
-            GD.Print(myFocusable.lol);
-            GD.Print($"angle={angle} sin={angleSin} cos={angleCos}");
-            GD.Print($"Offset ({offsetX},{offsetY},{offsetZ}))");
-            GD.Print($"{myFocusable.lol} = {myFocusable.Position}");
         }
         clearColors();
     }
