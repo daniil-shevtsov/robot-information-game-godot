@@ -30,7 +30,7 @@ public partial class Player : CharacterBody3D
 
         var radius = 6.0;
 
-        for (int i = 0; i <= 3; ++i)
+        for (int i = 0; i < 8; ++i)
         {
             var instanceFocusable = codeFocusable.Instantiate();
             var myFocusable = (FocusableSphere)instanceFocusable;
@@ -39,7 +39,7 @@ public partial class Player : CharacterBody3D
 
             var step = Math.PI / 2;
             var angle = 0.0;
-            angle = step * i;
+            angle = step * i / 2.0;
 
             var angleSin = Math.Sin(angle);
             var angleCos = Math.Cos(angle);
