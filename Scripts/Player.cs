@@ -32,10 +32,25 @@ public partial class Player : CharacterBody3D
         var scene = GetTree().CurrentScene;
         var codeFocusable = GD.Load<PackedScene>("res://Prefabs/focusable_sphere.tscn");
         //scene.AddChild(codeFocusable.Instantiate());
-        GD.Print($"focusable res: {codeFocusable}");
+
+
+        var instanceFocusable = codeFocusable.Instantiate();
+        var myFocusable = (FocusableSphere)instanceFocusable;
+        GD.Print($"myFocusable: {myFocusable}");
+        //scene.AddChild(instancefocusable);
+        scene.CallDeferred("add_child", instanceFocusable);
+        focusables.Add((FocusableSphere)instanceFocusable);
+        //myFocusable.Position = new Vector3(0, 0, 0);
+        myFocusable.GlobalPosition = new Vector3(
+            GlobalPosition.X + 3,
+            GlobalPosition.Y,
+            GlobalPosition.Z
+        );
+        //AddChild(instancefocusable);
         foreach (var focusable in focusables)
         {
             focusable.lol = $"focusable {focusable.Position}";
+            GD.Print(focusable.lol);
         }
         clearColors();
     }
@@ -101,8 +116,6 @@ public partial class Player : CharacterBody3D
         var focusable = findIntersectedFocusable(eventMouseMotion.Position);
         if (focusable != null)
         {
-            GD.Print($"hover on {focusable.lol}");
-
             setFocusableColor(focusable, Color.FromHtml("#00FF00"));
         }
         else
@@ -116,7 +129,6 @@ public partial class Player : CharacterBody3D
         var focusable = findIntersectedFocusable(eventMouseButton.Position);
         if (focusable != null)
         {
-            GD.Print($"click on {focusable.lol}");
             setFocusableColor(focusable, Color.FromHtml("#FF0000"));
         }
         else
@@ -145,7 +157,6 @@ public partial class Player : CharacterBody3D
 
     private void setFocusableColor(FocusableSphere focusable, Color newColor)
     {
-        GD.Print($"set color for {focusable.lol}");
         StandardMaterial3D material = new StandardMaterial3D();
         material.AlbedoColor = newColor;
 
@@ -154,7 +165,6 @@ public partial class Player : CharacterBody3D
 
     private void clearColors()
     {
-        GD.Print("Clear colors");
         var color = Color.FromHtml("#0000FF");
         foreach (var focusable in focusables)
         {
