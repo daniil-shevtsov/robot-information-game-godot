@@ -29,9 +29,15 @@ public partial class Player : CharacterBody3D
         focusables.Add(GetNode<FocusableSphere>("../FocusableSphere"));
         focusables.Add(GetNode<FocusableSphere>("../FocusableSphere2"));
         focusables.Add(GetNode<FocusableSphere>("../FocusableSphere3"));
-        focusables[0].lol = "kek0";
-        focusables[1].lol = "kek1";
-        focusables[2].lol = "kek2";
+        var scene = GetTree().CurrentScene;
+        var codeFocusable = GD.Load<PackedScene>("res://Prefabs/focusable_sphere.tscn");
+        //scene.AddChild(codeFocusable.Instantiate());
+        GD.Print($"focusable res: {codeFocusable}");
+        foreach (var focusable in focusables)
+        {
+            focusable.lol = $"focusable {focusable.Position}";
+        }
+        clearColors();
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -82,23 +88,77 @@ public partial class Player : CharacterBody3D
             && eventMouseButton.ButtonIndex == MouseButton.Left
         )
         {
-            var from = camera3D.ProjectRayOrigin(eventMouseButton.Position);
-            var to = from + camera3D.ProjectRayNormal(eventMouseButton.Position) * RayLength;
+            onClickInput(eventMouseButton);
+        }
+        else if (@event is InputEventMouseMotion eventMouseMotion)
+        {
+            onMouseMotion(eventMouseMotion);
+        }
+    }
 
-            var spaceState = GetWorld3D().DirectSpaceState;
-            var query = PhysicsRayQueryParameters3D.Create(from, to);
-            query.Exclude = new Godot.Collections.Array<Rid> { GetRid() };
-            var result = spaceState.IntersectRay(query);
+    private void onMouseMotion(InputEventMouseMotion eventMouseMotion)
+    {
+        var focusable = findIntersectedFocusable(eventMouseMotion.Position);
+        if (focusable != null)
+        {
+            GD.Print($"hover on {focusable.lol}");
 
+            setFocusableColor(focusable, Color.FromHtml("#00FF00"));
+        }
+        else
+        {
+            clearColors();
+        }
+    }
+
+    private void onClickInput(InputEventMouseButton eventMouseButton)
+    {
+        var focusable = findIntersectedFocusable(eventMouseButton.Position);
+        if (focusable != null)
+        {
+            GD.Print($"click on {focusable.lol}");
+            setFocusableColor(focusable, Color.FromHtml("#FF0000"));
+        }
+        else
+        {
+            clearColors();
+        }
+    }
+
+    private FocusableSphere findIntersectedFocusable(Vector2 mousePosition)
+    {
+        var from = camera3D.ProjectRayOrigin(mousePosition);
+        var to = from + camera3D.ProjectRayNormal(mousePosition) * RayLength;
+
+        var spaceState = GetWorld3D().DirectSpaceState;
+        var query = PhysicsRayQueryParameters3D.Create(from, to);
+        query.Exclude = new Godot.Collections.Array<Rid> { GetRid() };
+        var result = spaceState.IntersectRay(query);
+
+        if (result != null && result.ContainsKey("collider"))
+        {
             var focusable = (FocusableSphere)result["collider"];
-            GD.Print($"from={from} to={to} intersects={focusable.lol}");
-            // var currentMaterial = new SpatialMaterial();
-            // currentMaterial.AlbedoColor = Color.FromHtml("#FF0000");
-            StandardMaterial3D material = new StandardMaterial3D(); // Create a new StandardMaterial3D
-            material.AlbedoColor = Color.FromHtml("#FF0000"); // Set the albedo color
+            return focusable;
+        }
+        return null;
+    }
 
-            // Assign the material to the CsgSphere3D
-            focusable.sphere.MaterialOverride = material;
+    private void setFocusableColor(FocusableSphere focusable, Color newColor)
+    {
+        GD.Print($"set color for {focusable.lol}");
+        StandardMaterial3D material = new StandardMaterial3D();
+        material.AlbedoColor = newColor;
+
+        focusable.sphere.MaterialOverride = material;
+    }
+
+    private void clearColors()
+    {
+        GD.Print("Clear colors");
+        var color = Color.FromHtml("#0000FF");
+        foreach (var focusable in focusables)
+        {
+            setFocusableColor(focusable, color);
         }
     }
 }
