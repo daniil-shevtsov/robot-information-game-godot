@@ -47,7 +47,7 @@ texture = ExtResource("1_tom8p")
 [node name="CameraPivot" type="Marker3D" parent="Player"]
 
 [node name="Camera3D" type="Camera3D" parent="Player/CameraPivot"]
-transform = Transform3D(1, 0, 0, 0, 0.79487, 0.606779, 0, -0.606779, 0.79487, 0, 1.7032, 3.41331)
+transform = Transform3D(1, 0, 0, 0, 0.79487, 0.606779, 0, -0.606779, 0.79487, 0, 6.98202, 8.19143)
 
 [node name="FocusableSphere" parent="." instance=ExtResource("4_n81ko")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, -2)

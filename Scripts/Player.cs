@@ -33,16 +33,29 @@ public partial class Player : CharacterBody3D
         var codeFocusable = GD.Load<PackedScene>("res://Prefabs/focusable_sphere.tscn");
         //scene.AddChild(codeFocusable.Instantiate());
 
-
-        var instanceFocusable = codeFocusable.Instantiate();
-        var myFocusable = (FocusableSphere)instanceFocusable;
-        GD.Print($"myFocusable: {myFocusable}");
-        //scene.AddChild(instancefocusable);
-        scene.CallDeferred("add_child", instanceFocusable);
-        focusables.Add((FocusableSphere)instanceFocusable);
-        //myFocusable.Position = new Vector3(0, 0, 0);
-        myFocusable.GlobalPosition = new Vector3(
-            GlobalPosition.X + 3,
+        for (int i = 0; i < 10; ++i)
+        {
+            var instanceFocusable = codeFocusable.Instantiate();
+            var myFocusable = (FocusableSphere)instanceFocusable;
+            scene.CallDeferred("add_child", instanceFocusable);
+            focusables.Add(myFocusable);
+            var sign = 1;
+            if (i % 2 == 0)
+            {
+                sign = -1;
+            }
+            myFocusable.GlobalPosition = new Vector3(
+                GlobalPosition.X + (i + 1) * 1 * sign,
+                GlobalPosition.Y,
+                GlobalPosition.Z
+            );
+        }
+        var instanceFocusable2 = codeFocusable.Instantiate();
+        var myFocusable2 = (FocusableSphere)instanceFocusable2;
+        scene.CallDeferred("add_child", instanceFocusable2);
+        focusables.Add(myFocusable2);
+        myFocusable2.GlobalPosition = new Vector3(
+            GlobalPosition.X - 3,
             GlobalPosition.Y,
             GlobalPosition.Z
         );
