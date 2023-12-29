@@ -36,51 +36,41 @@ public partial class Player : CharacterBody3D
             var myFocusable = (FocusableSphere)instanceFocusable;
             scene.CallDeferred("add_child", instanceFocusable);
             focusables.Add(myFocusable);
-            var sign = 1;
-            var offsetX = radius;
-            var offsetY = radius;
-            var offsetZ = radius;
+
             var angle = 0.0;
 
             if (i == 0)
             {
-                angle = Math.PI * 2;
-                offsetX = 0;
-                offsetY = 3;
-                offsetZ = radius * Math.Sin(angle);
+                angle = Math.PI / 2;
             }
             else if (i == 1)
             {
                 angle = Math.PI * 0;
-                offsetX = radius;
-                offsetY = 3;
-                offsetZ = radius * Math.Sin(angle);
             }
             else if (i == 2)
             {
                 angle = Math.PI * 3 / 2;
-                offsetX = 0;
-                offsetY = 3;
-                offsetZ = radius * Math.Sin(angle);
             }
             else if (i == 3)
             {
                 angle = Math.PI * 1;
-                offsetX = -radius;
-                offsetY = 3;
-                offsetZ = radius * Math.Sin(angle);
             }
-            offsetX = radius * Math.Cos(angle);
-            offsetZ = radius * Math.Sin(angle);
+            var angleSin = Math.Sin(angle);
+            var angleCos = Math.Cos(angle);
+            var offsetX = radius * angleSin;
+            var offsetY = 3f;
+            var offsetZ = radius * -angleCos;
 
             myFocusable.GlobalPosition = new Vector3(
-                GlobalPosition.X + (float)offsetX,
-                GlobalPosition.Y + (float)offsetY,
-                GlobalPosition.Z + (float)offsetZ
+                (float)offsetX,
+                (float)offsetY,
+                (float)offsetZ
             );
             myFocusable.lol = $"focusable{i}";
+            GD.Print(myFocusable.lol);
+            GD.Print($"angle={angle} sin={angleSin} cos={angleCos}");
             GD.Print($"Offset ({offsetX},{offsetY},{offsetZ}))");
-            GD.Print($"{myFocusable.lol} = {myFocusable.GlobalPosition}");
+            GD.Print($"{myFocusable.lol} = {myFocusable.Position}");
         }
         clearColors();
     }
