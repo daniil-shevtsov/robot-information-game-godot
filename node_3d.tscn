@@ -1,9 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://bqq57qthffnss"]
+[gd_scene load_steps=8 format=3 uid="uid://bqq57qthffnss"]
 
 [ext_resource type="PackedScene" uid="uid://dn1k0mjbyfoo6" path="res://Prefabs/ground.tscn" id="1_0rkc2"]
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_m6lx3"]
 [ext_resource type="Texture2D" uid="uid://pvdf06puwgf2" path="res://Assets/Texture/TempPlayerSprite.png" id="1_tom8p"]
-[ext_resource type="PackedScene" uid="uid://dgv0ceu3gb0xm" path="res://Prefabs/focusable_sphere.tscn" id="4_n81ko"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_co3db"]
 size = Vector3(5, 1, 5)
@@ -49,15 +48,6 @@ texture = ExtResource("1_tom8p")
 [node name="Camera3D" type="Camera3D" parent="Player/CameraPivot"]
 transform = Transform3D(1, 0, 0, 0, 0.79487, 0.606779, 0, -0.606779, 0.79487, 0, 6.98202, 8.19143)
 
-[node name="FocusableSphere" parent="." instance=ExtResource("4_n81ko")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, -2)
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_sxjm3")
 camera_attributes = SubResource("CameraAttributesPractical_hc07r")
-
-[node name="FocusableSphere2" parent="." instance=ExtResource("4_n81ko")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 2, -2)
-
-[node name="FocusableSphere3" parent="." instance=ExtResource("4_n81ko")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -2)

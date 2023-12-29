@@ -25,13 +25,10 @@ public partial class Player : CharacterBody3D
     {
         camera3D = GetNode<Camera3D>("CameraPivot/Camera3D");
         focusables = new List<FocusableSphere>();
-        //TODO: Create focusables with code
-        focusables.Add(GetNode<FocusableSphere>("../FocusableSphere"));
-        focusables.Add(GetNode<FocusableSphere>("../FocusableSphere2"));
-        focusables.Add(GetNode<FocusableSphere>("../FocusableSphere3"));
         var scene = GetTree().CurrentScene;
         var codeFocusable = GD.Load<PackedScene>("res://Prefabs/focusable_sphere.tscn");
-        //scene.AddChild(codeFocusable.Instantiate());
+
+        var radius = 6;
 
         for (int i = 0; i < 10; ++i)
         {
@@ -40,30 +37,44 @@ public partial class Player : CharacterBody3D
             scene.CallDeferred("add_child", instanceFocusable);
             focusables.Add(myFocusable);
             var sign = 1;
+            var offsetX = radius;
+            var offsetY = radius;
+            var offsetZ = radius;
             if (i % 2 == 0)
             {
                 sign = -1;
             }
+            if (i == 0)
+            {
+                offsetX = 0;
+                offsetY = 3;
+                offsetZ = -radius;
+            }
+            else if (i == 1)
+            {
+                offsetX = radius;
+                offsetY = 3;
+                offsetZ = 0;
+            }
+            else if (i == 2)
+            {
+                offsetX = 0;
+                offsetY = 3;
+                offsetZ = radius;
+            }
+            else if (i == 3)
+            {
+                offsetX = -radius;
+                offsetY = 3;
+                offsetZ = 0;
+            }
+
             myFocusable.GlobalPosition = new Vector3(
-                GlobalPosition.X + (i + 1) * 1 * sign,
-                GlobalPosition.Y,
-                GlobalPosition.Z
+                GlobalPosition.X + offsetX,
+                GlobalPosition.Y + offsetY,
+                GlobalPosition.Z + offsetZ
             );
-        }
-        var instanceFocusable2 = codeFocusable.Instantiate();
-        var myFocusable2 = (FocusableSphere)instanceFocusable2;
-        scene.CallDeferred("add_child", instanceFocusable2);
-        focusables.Add(myFocusable2);
-        myFocusable2.GlobalPosition = new Vector3(
-            GlobalPosition.X - 3,
-            GlobalPosition.Y,
-            GlobalPosition.Z
-        );
-        //AddChild(instancefocusable);
-        foreach (var focusable in focusables)
-        {
-            focusable.lol = $"focusable {focusable.Position}";
-            GD.Print(focusable.lol);
+            myFocusable.lol = $"focusable{i}";
         }
         clearColors();
     }
