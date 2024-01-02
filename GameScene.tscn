@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bqq57qthffnss"]
+[gd_scene load_steps=9 format=3 uid="uid://bqq57qthffnss"]
 
-[ext_resource type="PackedScene" uid="uid://dn1k0mjbyfoo6" path="res://Prefabs/ground.tscn" id="1_0rkc2"]
-[ext_resource type="Script" path="res://Scripts/Player.cs" id="1_m6lx3"]
-[ext_resource type="Texture2D" uid="uid://pvdf06puwgf2" path="res://Assets/Texture/TempPlayerSprite.png" id="1_tom8p"]
+[ext_resource type="Script" path="res://GameScene.cs" id="1_fci4b"]
+[ext_resource type="PackedScene" uid="uid://dn1k0mjbyfoo6" path="res://Prefabs/ground.tscn" id="1_i87kw"]
+[ext_resource type="Script" path="res://Scripts/Player.cs" id="2_f5svb"]
+[ext_resource type="Texture2D" uid="uid://pvdf06puwgf2" path="res://Assets/Texture/TempPlayerSprite.png" id="3_vnvh2"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_co3db"]
 size = Vector3(5, 1, 5)
@@ -14,7 +15,8 @@ height = 3.00343
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_hc07r"]
 
-[node name="Node3D" type="Node3D"]
+[node name="GameSceneRoot" type="Node3D"]
+script = ExtResource("1_fci4b")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.382683, -0.897594, 0.21881, 0, 0.236838, 0.971549, -0.92388, 0.371796, -0.090634, 0, 0, 0)
@@ -29,11 +31,11 @@ size = Vector3(5, 1, 5)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground2"]
 shape = SubResource("BoxShape3D_co3db")
 
-[node name="Ground" parent="." instance=ExtResource("1_0rkc2")]
+[node name="Ground" parent="." instance=ExtResource("1_i87kw")]
 
 [node name="Player" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.79162, 0)
-script = ExtResource("1_m6lx3")
+script = ExtResource("2_f5svb")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.196176, 0)
@@ -41,7 +43,7 @@ shape = SubResource("CapsuleShape3D_pk3m5")
 
 [node name="PlayerSprite" type="Sprite3D" parent="Player"]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
-texture = ExtResource("1_tom8p")
+texture = ExtResource("3_vnvh2")
 
 [node name="CameraPivot" type="Marker3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 0.995056, -0.0993197, 0, 0.0993197, 0.995056, 0, 0, 0)

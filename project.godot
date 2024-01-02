@@ -11,13 +11,17 @@ config_version=5
 [application]
 
 config/name="RobotInformationGame"
-run/main_scene="res://node_3d.tscn"
+run/main_scene="res://GameScene.tscn"
 config/features=PackedStringArray("4.1", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
 [dotnet]
 
 project/assembly_name="RobotInformationGame"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg")
 
 [input]
 
