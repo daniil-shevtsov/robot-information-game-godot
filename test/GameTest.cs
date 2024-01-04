@@ -11,6 +11,16 @@ public partial class GameTest
     public void Setup() { }
 
     [TestCase]
+    public void TestGameState()
+    {
+        var codeFocusable = GD.Load<PackedScene>("res://Prefabs/focusable_sphere.tscn");
+        var instanceFocusable = codeFocusable.Instantiate();
+        var myFocusable = (FocusableSphere)instanceFocusable;
+        myFocusable.lol = $"focusable{5}";
+        AssertThat(myFocusable.lol).IsEqual("focusable7");
+    }
+
+    [TestCase]
     public void TestFalse()
     {
         AssertThat(false).IsFalse();
