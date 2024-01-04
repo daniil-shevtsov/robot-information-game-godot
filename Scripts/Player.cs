@@ -18,7 +18,7 @@ public partial class Player : CharacterBody3D
 
     private Camera3D camera3D = null;
 
-    private List<FocusableSphere> focusables = new List<FocusableSphere>();
+    public List<FocusableSphere> focusables = new List<FocusableSphere>();
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
