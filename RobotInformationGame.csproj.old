@@ -2,10 +2,10 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <EnableDynamicLoading>true</EnableDynamicLoading>
-    <LangVersion>11.0</LangVersion>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	<LangVersion>11.0</LangVersion>
+	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="gdUnit4.api" Version="4.2.0-rc*" />
+	<PackageReference Include="gdUnit4.api" Version="4.2.0-rc*" />
   </ItemGroup>
 </Project>

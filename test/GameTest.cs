@@ -11,6 +11,12 @@ public partial class GameTest
     public void Setup() { }
 
     [TestCase]
+    public void TestFalse()
+    {
+        AssertThat(false).IsFalse();
+    }
+
+    [TestCase]
     public void TestTrue()
     {
         AssertThat(true).IsTrue();
