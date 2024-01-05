@@ -20,9 +20,19 @@ public partial class Player : CharacterBody3D
 
     public List<FocusableSphere> focusables = new List<FocusableSphere>();
 
+    private StandardMaterial3D blueMaterial = new StandardMaterial3D();
+    private StandardMaterial3D greenMaterial = new StandardMaterial3D();
+    private StandardMaterial3D redMaterial = new StandardMaterial3D();
+
+    bool shouldInit = true;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        blueMaterial.AlbedoColor = Color.FromHtml("#0000FF");
+        greenMaterial.AlbedoColor = Color.FromHtml("#00FF00");
+        redMaterial.AlbedoColor = Color.FromHtml("#FF0000");
+
         camera3D = GetNode<Camera3D>("CameraPivot/Camera3D");
         focusables = new List<FocusableSphere>();
         var scene = GetTree().CurrentScene;
@@ -48,11 +58,7 @@ public partial class Player : CharacterBody3D
                 3f,
                 (float)(radius * -Math.Cos(angle))
             );
-            GD.Print(
-                $"{myFocusable.lol} {myFocusable.Position} {camera3D.UnprojectPosition(myFocusable.Position)}"
-            );
         }
-        clearColors();
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -60,6 +66,12 @@ public partial class Player : CharacterBody3D
 
     public override void _PhysicsProcess(double delta)
     {
+        if (shouldInit)
+        {
+            clearColors();
+            shouldInit = false;
+        }
+
         var direction = Vector3.Zero;
         // We check for each move input and update the direction accordingly.
         if (Input.IsActionPressed("move_right"))
@@ -113,14 +125,10 @@ public partial class Player : CharacterBody3D
 
     private void onMouseMotion(InputEventMouseMotion eventMouseMotion)
     {
-        GD.Print($"my log: onMouseMotion mouse position={eventMouseMotion.Position}");
-        GD.Print("my log: before focusable");
         var focusable = findIntersectedFocusable(eventMouseMotion.Position);
-        GD.Print("my log: after focusable");
 
         if (focusable != null)
         {
-            GD.Print($"my log: found focusable {focusable.lol}");
             setFocusableColor(focusable, Color.FromHtml("#00FF00"));
         }
         else
@@ -134,7 +142,6 @@ public partial class Player : CharacterBody3D
         var focusable = findIntersectedFocusable(eventMouseButton.Position);
         if (focusable != null)
         {
-            GD.Print($"{focusable.lol} clicked");
             setFocusableColor(focusable, Color.FromHtml("#FF0000"));
         }
         else
@@ -152,7 +159,7 @@ public partial class Player : CharacterBody3D
         var query = PhysicsRayQueryParameters3D.Create(from, to);
         query.Exclude = new Godot.Collections.Array<Rid> { GetRid() };
         var result = spaceState.IntersectRay(query);
-        GD.Print($"intersection result = {result.Count}");
+
         if (result != null && result.ContainsKey("collider"))
         {
             var focusable = (FocusableSphere)result["collider"];
@@ -169,12 +176,17 @@ public partial class Player : CharacterBody3D
         focusable.sphere.MaterialOverride = material;
     }
 
+    private void setFocusableMaterial(FocusableSphere focusable, Material material)
+    {
+        focusable.sphere.MaterialOverride = material;
+    }
+
     private void clearColors()
     {
-        var color = Color.FromHtml("#0000FF");
+        GD.Print("Clear colors");
         foreach (var focusable in focusables)
         {
-            setFocusableColor(focusable, color);
+            setFocusableMaterial(focusable, blueMaterial);
         }
     }
 }

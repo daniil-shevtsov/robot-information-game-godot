@@ -21,9 +21,10 @@ public partial class GameTest
         var focusablePosition = gameScene.player.focusables[16].Position;
         await runner.AwaitMillis(1000);
         await runner.AwaitIdleFrame();
+        await runner.SimulateFrames(3);
         var currentMaterial3 = (BaseMaterial3D)
             gameScene.player.focusables[16].sphere.MaterialOverride;
-        AssertObject(currentMaterial3).IsNull();
+        AssertObject(currentMaterial3.AlbedoColor.ToHtml()).IsEqual("0000ffff");
         runner.SimulateMouseMove(mousePosition);
         runner.SetMousePos(mousePosition);
         GD.Print(
