@@ -16,7 +16,7 @@ public partial class Player : CharacterBody3D
     private const float RayLength = 1000.0f;
     private Vector3 mousePosition = Vector3.Zero;
 
-    private Camera3D camera3D = null;
+    public Camera3D camera3D = null;
 
     public List<FocusableSphere> focusables = new List<FocusableSphere>();
 
@@ -47,6 +47,9 @@ public partial class Player : CharacterBody3D
                 (float)(radius * Math.Sin(angle)),
                 3f,
                 (float)(radius * -Math.Cos(angle))
+            );
+            GD.Print(
+                $"{myFocusable.lol} {myFocusable.Position} {camera3D.UnprojectPosition(myFocusable.Position)}"
             );
         }
         clearColors();
@@ -110,9 +113,14 @@ public partial class Player : CharacterBody3D
 
     private void onMouseMotion(InputEventMouseMotion eventMouseMotion)
     {
+        GD.Print($"my log: onMouseMotion mouse position={eventMouseMotion.Position}");
+        GD.Print("my log: before focusable");
         var focusable = findIntersectedFocusable(eventMouseMotion.Position);
+        GD.Print("my log: after focusable");
+
         if (focusable != null)
         {
+            GD.Print($"my log: found focusable {focusable.lol}");
             setFocusableColor(focusable, Color.FromHtml("#00FF00"));
         }
         else
@@ -144,7 +152,7 @@ public partial class Player : CharacterBody3D
         var query = PhysicsRayQueryParameters3D.Create(from, to);
         query.Exclude = new Godot.Collections.Array<Rid> { GetRid() };
         var result = spaceState.IntersectRay(query);
-
+        GD.Print($"intersection result = {result.Count}");
         if (result != null && result.ContainsKey("collider"))
         {
             var focusable = (FocusableSphere)result["collider"];

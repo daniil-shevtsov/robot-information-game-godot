@@ -14,31 +14,38 @@ public partial class GameTest
     [TestCase]
     public async Task TestSceneRunner()
     {
+        //my log: focusable: (7.3478806E-16, 3, 6) ((576, 570.4077))
         ISceneRunner runner = ISceneRunner.Load("res://GameScene.tscn");
         var gameScene = (GameScene)runner.Scene();
-        GD.Print($"my log: {gameScene.player.focusables.Count}");
-        await runner.SimulateFrames(10);
-    }
+        var mousePosition = new Vector2(576, 595.0876f);
+        var focusablePosition = gameScene.player.focusables[16].Position;
+        await runner.AwaitMillis(1000);
+        await runner.AwaitIdleFrame();
+        var currentMaterial3 = (BaseMaterial3D)
+            gameScene.player.focusables[16].sphere.MaterialOverride;
+        AssertObject(currentMaterial3).IsNull();
+        runner.SimulateMouseMove(mousePosition);
+        runner.SetMousePos(mousePosition);
+        GD.Print(
+            $"test log: mouse={mousePosition} focusable={focusablePosition} {gameScene.player.camera3D.UnprojectPosition(focusablePosition)}"
+        );
 
-    [TestCase]
-    public void TestFocusable()
-    {
-        var codeFocusable = GD.Load<PackedScene>("res://Prefabs/focusable_sphere.tscn");
-        var instanceFocusable = codeFocusable.Instantiate();
-        var myFocusable = (FocusableSphere)instanceFocusable;
-        myFocusable.lol = $"focusable{5}";
-        AssertThat(myFocusable.lol).IsEqual("focusable5");
-    }
+        await runner.AwaitMillis(1000);
+        await runner.AwaitIdleFrame();
 
-    [TestCase]
-    public void TestFalse()
-    {
-        AssertThat(false).IsFalse();
-    }
+        var currentMaterial = (BaseMaterial3D)
+            gameScene.player.focusables[16].sphere.MaterialOverride;
+        AssertObject(currentMaterial.AlbedoColor.ToHtml()).IsEqual("00ff00ff");
+        runner.SimulateMouseButtonPressed(MouseButton.Left);
+        await runner.AwaitMillis(1000);
+        await runner.AwaitIdleFrame();
 
-    [TestCase]
-    public void TestTrue()
-    {
-        AssertThat(true).IsTrue();
+        // await runner.AwaitMillis(1000);
+        var currentMaterial2 = (BaseMaterial3D)
+            gameScene.player.focusables[16].sphere.MaterialOverride;
+        AssertObject(currentMaterial2.AlbedoColor.ToHtml()).IsEqual("ff0000ff");
+        await runner.AwaitIdleFrame();
+
+        //await runner.AwaitMillis(4000);
     }
 }
