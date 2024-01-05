@@ -27,24 +27,25 @@ public partial class GameTest
 
         await runner.SimulateFrames(1);
 
-        var currentMaterial3 = (BaseMaterial3D)
-            gameScene.player.focusables[16].sphere.MaterialOverride;
-        AssertObject(currentMaterial3.AlbedoColor.ToHtml()).IsEqual("0000ffff");
+        assertColor(gameScene.player.focusables[16], "0000ffff");
 
         runner.SimulateMouseMove(mousePosition);
         runner.SetMousePos(mousePosition);
 
         await runner.SimulateFrames(1);
 
-        var currentMaterial = (BaseMaterial3D)
-            gameScene.player.focusables[16].sphere.MaterialOverride;
-        AssertObject(currentMaterial.AlbedoColor.ToHtml()).IsEqual("00ff00ff");
+        assertColor(gameScene.player.focusables[16], "00ff00ff");
+
         runner.SimulateMouseButtonPressed(MouseButton.Left);
 
         await runner.SimulateFrames(1);
 
-        var currentMaterial2 = (BaseMaterial3D)
-            gameScene.player.focusables[16].sphere.MaterialOverride;
-        AssertObject(currentMaterial2.AlbedoColor.ToHtml()).IsEqual("ff0000ff");
+        assertColor(gameScene.player.focusables[16], "ff0000ff");
+    }
+
+    private void assertColor(FocusableSphere focusable, String expectedColorHtml)
+    {
+        var currentMaterial = (BaseMaterial3D)focusable.sphere.MaterialOverride;
+        AssertObject(currentMaterial.AlbedoColor.ToHtml()).IsEqual(expectedColorHtml);
     }
 }
