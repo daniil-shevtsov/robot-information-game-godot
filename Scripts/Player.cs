@@ -29,6 +29,7 @@ public partial class Player : CharacterBody3D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        GD.Print($"Player{this} ready");
         blueMaterial.AlbedoColor = Color.FromHtml("#0000FF");
         greenMaterial.AlbedoColor = Color.FromHtml("#00FF00");
         redMaterial.AlbedoColor = Color.FromHtml("#FF0000");
@@ -40,7 +41,7 @@ public partial class Player : CharacterBody3D
 
         var radius = 6.0;
 
-        var focusableCount = 32;
+        var focusableCount = 1;
         for (int i = 0; i < focusableCount; ++i)
         {
             var instanceFocusable = codeFocusable.Instantiate();
@@ -49,6 +50,11 @@ public partial class Player : CharacterBody3D
             focusables.Add(myFocusable);
 
             myFocusable.lol = $"focusable{i}";
+
+            if (myFocusable.lol == "focusable0")
+            {
+                GD.Print($"{this} created {myFocusable.lol} {myFocusable}");
+            }
 
             var step = 2 * Math.PI / focusableCount;
             var angle = step * i;
@@ -129,7 +135,9 @@ public partial class Player : CharacterBody3D
 
         if (focusable != null)
         {
-            setFocusableColor(focusable, Color.FromHtml("#00FF00"));
+            GD.Print($"Hovered over {focusable.lol}");
+            //setFocusableColor(focusable, Color.FromHtml("#00FF00"));
+            setFocusableMaterial(focusable, greenMaterial);
         }
         else
         {
@@ -142,7 +150,8 @@ public partial class Player : CharacterBody3D
         var focusable = findIntersectedFocusable(eventMouseButton.Position);
         if (focusable != null)
         {
-            setFocusableColor(focusable, Color.FromHtml("#FF0000"));
+            //setFocusableColor(focusable, Color.FromHtml("#FF0000"));
+            setFocusableMaterial(focusable, redMaterial);
         }
         else
         {
@@ -174,16 +183,22 @@ public partial class Player : CharacterBody3D
         material.AlbedoColor = newColor;
 
         focusable.sphere.MaterialOverride = material;
+        GD.Print($"Set {newColor.ToHtml()} to {focusable.lol} {focusable}");
     }
 
-    private void setFocusableMaterial(FocusableSphere focusable, Material material)
+    private void setFocusableMaterial(FocusableSphere focusable, StandardMaterial3D material)
     {
         focusable.sphere.MaterialOverride = material;
+        if (focusable.lol == "focusable0")
+        {
+            GD.Print(
+                $"Player {this} Set material with color {material.AlbedoColor.ToHtml()} to {focusable.lol} {focusable}"
+            );
+        }
     }
 
     private void clearColors()
     {
-        GD.Print("Clear colors");
         foreach (var focusable in focusables)
         {
             setFocusableMaterial(focusable, blueMaterial);
