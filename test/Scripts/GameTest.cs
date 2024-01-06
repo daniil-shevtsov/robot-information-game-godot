@@ -2,10 +2,11 @@ using GdUnit4.Core;
 using Godot;
 using System;
 using GdUnit4;
-using static GdUnit4.Assertions;
 using System.Threading.Tasks;
-using ExtensionMethods;
+using static GdUnit4.Assertions;
 using GdUnit4.Asserts;
+
+//using ExtensionMethods;
 
 [TestSuite]
 public partial class GameTest
@@ -29,57 +30,24 @@ public partial class GameTest
 
         await runner.SimulateFrames(1);
 
-        AssertThat(gameScene.player.focusables[16]).HasColor("0000ffff");
+        assertColor(gameScene.player.focusables[16], "0000ffff");
 
         runner.SimulateMouseMove(mousePosition);
         runner.SetMousePos(mousePosition);
 
         await runner.SimulateFrames(1);
 
-        AssertThat(gameScene.player.focusables[16]).HasColor("00ff00ff");
-        gameScene.player.focusables[16].HasColor("00ff00ff");
+        assertColor(gameScene.player.focusables[16], "00ff00ff");
 
         runner.SimulateMouseButtonPressed(MouseButton.Left);
 
         await runner.SimulateFrames(1);
-
-        AssertThat(gameScene.player.focusables[16]).HasColor("ff0000ff");
+        assertColor(gameScene.player.focusables[16], "ff0000ff");
     }
 
     private void assertColor(FocusableSphere focusable, String expectedColorHtml)
     {
         var currentMaterial = (BaseMaterial3D)focusable.sphere.MaterialOverride;
         AssertObject(currentMaterial.AlbedoColor.ToHtml()).IsEqual(expectedColorHtml);
-    }
-}
-
-namespace ExtensionMethods
-{
-    public static class LolExtensions
-    {
-        public static bool IsGreaterThan(this int i, int value)
-        {
-            return i > value;
-        }
-
-        public static bool IsLesserThan(this FocusableSphere focusable, String expectedColorHtml)
-        {
-            return false;
-        }
-
-        public static void HasColor(this FocusableSphere focusable, String expectedColorHtml)
-        {
-            var currentMaterial = (BaseMaterial3D)focusable.sphere.MaterialOverride;
-            AssertObject(currentMaterial.AlbedoColor.ToHtml()).IsEqual(expectedColorHtml);
-        }
-
-        public static void HasColor(
-            this IAssertBase<FocusableSphere> focusable,
-            String expectedColorHtml
-        )
-        {
-            var currentMaterial = (BaseMaterial3D)focusable.UnboxVariant().sphere.MaterialOverride;
-            AssertObject(currentMaterial.AlbedoColor.ToHtml()).IsEqual(expectedColorHtml);
-        }
     }
 }
