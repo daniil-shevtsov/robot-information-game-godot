@@ -41,7 +41,7 @@ public partial class Player : CharacterBody3D
 
         var radius = 6.0;
 
-        var focusableCount = 1;
+        var focusableCount = 16;
         for (int i = 0; i < focusableCount; ++i)
         {
             var instanceFocusable = codeFocusable.Instantiate();
@@ -171,7 +171,12 @@ public partial class Player : CharacterBody3D
 
         if (result != null && result.ContainsKey("collider"))
         {
-            var focusable = (FocusableSphere)result["collider"];
+            /* TODO: I can't use this focusable because tests are run in parallel and godot singletons are reused,
+            this focusable sometimes is from another test. Until I ask in issues what is the intended solution to this,
+            I use a little hack here. */
+            var potentiallyWrongInstanceFocusable = (FocusableSphere)result["collider"];
+            var focusable = focusables.Find(x => x.lol == potentiallyWrongInstanceFocusable.lol);
+
             return focusable;
         }
         return null;
