@@ -3,7 +3,7 @@ using Godot;
 
 public partial class FocusableSphere : StaticBody3D
 {
-    public String lol = "kek";
+    public String focusableId = null;
 
     public CsgSphere3D sphere = null;
 

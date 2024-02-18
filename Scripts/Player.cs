@@ -49,11 +49,11 @@ public partial class Player : CharacterBody3D
             scene.CallDeferred("add_child", instanceFocusable);
             focusables.Add(myFocusable);
 
-            myFocusable.lol = $"focusable{i}";
+            myFocusable.focusableId = $"focusable{i}";
 
-            if (myFocusable.lol == "focusable0")
+            if (myFocusable.focusableId == "focusable0")
             {
-                GD.Print($"{this} created {myFocusable.lol} {myFocusable}");
+                GD.Print($"{this} created {myFocusable.focusableId} {myFocusable}");
             }
 
             var step = 2 * Math.PI / focusableCount;
@@ -135,7 +135,7 @@ public partial class Player : CharacterBody3D
 
         if (focusable != null)
         {
-            GD.Print($"Hovered over {focusable.lol}");
+            GD.Print($"Hovered over {focusable.focusableId}");
             //setFocusableColor(focusable, Color.FromHtml("#00FF00"));
             setFocusableMaterial(focusable, greenMaterial);
         }
@@ -172,10 +172,12 @@ public partial class Player : CharacterBody3D
         if (result != null && result.ContainsKey("collider"))
         {
             /* TODO: I can't use this focusable because tests are run in parallel and godot singletons are reused,
-            this focusable sometimes is from another test. Until I ask in issues what is the intended solution to this,
+            this focusable sometimes is from another test. Until I ask in issues what is the intended solution,
             I use a little hack here. */
             var potentiallyWrongInstanceFocusable = (FocusableSphere)result["collider"];
-            var focusable = focusables.Find(x => x.lol == potentiallyWrongInstanceFocusable.lol);
+            var focusable = focusables.Find(
+                x => x.focusableId == potentiallyWrongInstanceFocusable.focusableId
+            );
 
             return focusable;
         }
@@ -188,16 +190,16 @@ public partial class Player : CharacterBody3D
         material.AlbedoColor = newColor;
 
         focusable.sphere.MaterialOverride = material;
-        GD.Print($"Set {newColor.ToHtml()} to {focusable.lol} {focusable}");
+        GD.Print($"Set {newColor.ToHtml()} to {focusable.focusableId} {focusable}");
     }
 
     private void setFocusableMaterial(FocusableSphere focusable, StandardMaterial3D material)
     {
         focusable.sphere.MaterialOverride = material;
-        if (focusable.lol == "focusable0")
+        if (focusable.focusableId == "focusable0")
         {
             GD.Print(
-                $"Player {this} Set material with color {material.AlbedoColor.ToHtml()} to {focusable.lol} {focusable}"
+                $"Player {this} Set material with color {material.AlbedoColor.ToHtml()} to {focusable.focusableId} {focusable}"
             );
         }
     }
